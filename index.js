@@ -1,14 +1,11 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
-const express = require('express');
-const app = express();
 
 const client = new Client({
-    authStrategy: new LocalAuth({ dataPath: '/app/data' }), // Caminho do volume para persistência no Railway
+    authStrategy: new LocalAuth(),
     puppeteer: {
         headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        executablePath: null // Desativa download automático do Chromium
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
     }
 });
 
@@ -51,7 +48,7 @@ Para adiantarmos o atendimento, digite a opção desejada:
 
     const respostasMenu = {
         '1': 'Você escolheu *Orçamento*. Por favor, envie os detalhes do serviço que deseja, local e data.',
-        '2': `Você escolheu *Informações gerais*.\n\nA D&J Imagens é uma empresa especializada em fotos e vídeos que transformam momentos em memórias inesquecíveis.\n\nCom um olhar criativo e sensível, registramos eventos, paisagens, projetos e histórias com qualidade, paixão e autenticidade.\n\nNosour compromisso é capturar não apenas imagens, mas emoções, sempre com profissionalismo, dedicação e foco na satisfação de nossos clientes. 📸🎬\n\nO que deseja saber?`,
+        '2': `Você escolheu *Informações gerais*.\n\nA D&J Imagens é uma empresa especializada em fotos e vídeos que transformam momentos em memórias inesquecíveis.\n\nCom um olhar criativo e sensível, registramos eventos, paisagens, projetos e histórias com qualidade, paixão e autenticidade.\n\nNosso compromisso é capturar não apenas imagens, mas emoções, sempre com profissionalismo, dedicação e foco na satisfação de nossos clientes. 📸🎬\n\nO que deseja saber?`,
         '3': 'Perfeito! 🧑‍💼 Um atendente irá responder sua mensagem em breve. Por favor, aguarde. 🙌'
     };
 
@@ -122,7 +119,3 @@ client.on('error', (error) => {
 });
 
 client.initialize();
-
-// Servidor para keep-alive
-app.get('/ping', (req, res) => res.send('Bot ativo!'));
-app.listen(process.env.PORT || 3000, () => console.log('Servidor rodando na porta 3000'));
